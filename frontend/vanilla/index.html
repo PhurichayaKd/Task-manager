@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Task Manager — Streamlined platform</title>
+  <link rel="stylesheet" href="./styles.css"/>
+</head>
+<body class="landing">
+
+  <!-- Mastbar: โลโก้ซ้าย / ปุ่มขวา -->
+  <header class="mastbar">
+    <div class="mast-inner">
+      <a class="brand" href="./index.html">task<span class="accent gradient-anim">manager</span></a>
+      <div class="right-actions">
+        <a class="nav-link muted" href="./auth/login.html" aria-label="Login">Login</a>
+        <a class="btn primary gradient-anim sheen" href="./auth/signup.html" aria-label="Sign up">
+          Sign up
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="section hero hero--plain hero--center">
+    <div class="container hero-inner hero-narrow">
+      <h1 class="display fx-reveal">
+        Achieve more with a
+        <br>
+        <span class="fx-line">
+          <span class="stroke animate gradient-anim">streamlined platform</span>
+          <span class="sparkle" aria-hidden="true">✨</span>
+        </span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Transform your productivity with intelligent task management,<br>
+        seamless collaboration, and powerful insights that adapt to your<br>
+        workflow.
+      </p>
+
+      <div class="features-container">
+        <div class="features-row features-row-1">
+          <div class="feature-card">
+            <div class="feature-icon">📋</div>
+            <h3 class="feature-title">Smart Task Management</h3>
+            <p class="feature-desc">Organize and prioritize your tasks with intelligent automation</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3 class="feature-title">Lightning Fast</h3>
+            <p class="feature-desc">Experience blazing speed with our optimized performance</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3 class="feature-title">Goal Tracking</h3>
+            <p class="feature-desc">Set and achieve your objectives with precision tracking</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🤝</div>
+            <h3 class="feature-title">Team Collaboration</h3>
+            <p class="feature-desc">Work seamlessly with your team in real-time</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3 class="feature-title">Analytics & Insights</h3>
+            <p class="feature-desc">Get powerful insights to boost your productivity</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📋</div>
+            <h3 class="feature-title">Smart Task Management</h3>
+            <p class="feature-desc">Organize and prioritize your tasks with intelligent automation</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3 class="feature-title">Lightning Fast</h3>
+            <p class="feature-desc">Experience blazing speed with our optimized performance</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3 class="feature-title">Goal Tracking</h3>
+            <p class="feature-desc">Set and achieve your objectives with precision tracking</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta">
+        <a class="btn cta-lg glow gradient-anim sheen" href="./auth/signup.html" aria-label="Sign up">
+          Get Started →
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container center muted">© 2025 Task Manager</div>
+  </footer>
+
+  <script type="module">
+    const t = localStorage.getItem('tm_access_token');
+    if (t) location.replace('/home.html');
+  </script>
+</body>
+</html>

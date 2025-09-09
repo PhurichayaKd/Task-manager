@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Sign up — Task Manager</title>
+
+  <!-- สไตล์หลัก (ธีมเดียวกับหน้า Landing) -->
+  <link rel="stylesheet" href="../styles.css"/>
+  <!-- สไตล์เฉพาะหน้า Auth (ไฟล์ที่แก้ไว้ล่าสุด) -->
+  <link rel="stylesheet" href="./styles.css"/>
+</head>
+<body class="auth">
+  <!-- Mastbar เหมือนหน้า Landing -->
+  <header class="mastbar">
+    <div class="mast-inner">
+      <a class="brand" href="../index.html">task<span class="accent">manager</span></a>
+      <!-- จะถูกซ่อนอัตโนมัติด้วย body.auth .right-actions -->
+      <nav class="right-actions">
+        <a class="nav-link muted" href="./login.html">Login</a>
+        <a class="btn primary gradient-anim sheen" href="./signup.html">Sign up</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section auth-wrap">
+    <div class="container">
+      <!-- card-tall = การ์ดสูงขึ้น / card-body = จัดเนื้อหาอยู่กึ่งกลางแนวตั้ง -->
+      <section class="card signup-card card-tall" aria-labelledby="signup-title">
+        <div class="card-body">
+          <h1 id="signup-title" class="auth-title center">
+            Welcome to <span class="accent">Task Manager</span>
+          </h1>
+          <!-- โปรยใต้หัวข้อ -->
+          <p class="subnote intro center">Get started — it's free.</p>
+
+          <div class="stack">
+            <!-- Sign in with Google (กว้าง/สูงเท่ากับช่องอีเมล) -->
+            <button type="button" class="oauth-btn" id="btn-google" aria-label="Continue with Google" onclick="handleGoogleLogin()">
+              <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google logo"/>
+              Continue with Google
+            </button>
+
+            <!-- ตัวคั่น -->
+            <div class="divider" role="separator" aria-hidden="true"><span>or</span></div>
+
+            <!-- Email step -->
+            <label class="label" for="signup-email">
+              <input
+                id="signup-email"
+                class="input"
+                type="email"
+                placeholder="name@company.com"
+                autocomplete="username"
+                autocapitalize="none"
+                spellcheck="false"
+                required
+                aria-label="Work email"
+              />
+            </label>
+
+            <!-- ปุ่ม Continue (สั้นลง + อยู่กึ่งกลาง พร้อมเอฟเฟกต์ gradient + sheen) -->
+            <button id="btn-continue" type="button"
+                    class="btn primary gradient-anim sheen btn-cta">
+              Continue
+            </button>
+          </div>
+        </div>
+
+        <div class="card-foot">
+          <p class="subnote center">
+            Already have an account?
+            <a class="link" href="./login.html">Log in</a>
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container center muted">© 2025 Task Manager</div>
+  </footer>
+
+  <script type="module" src="./auth-v2.js"></script>
+</body>
+</html>

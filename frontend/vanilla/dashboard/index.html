@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Board • Task Manager</title>
+  <link rel="stylesheet" href="../styles.css"/>
+  <link rel="stylesheet" href="./styles.css"/>
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-row">
+    <div class="brand">project</div>
+    <nav class="top-actions">
+      <a class="btn link" href="../index.html">🅿 Home</a>
+      <button id="viewToggle" class="btn ghost" title="Switch view">🗂 Cards</button>
+      <input id="searchInput" class="input search" placeholder="Search tasks…"/>
+      <select id="statusFilter" class="input small">
+        <option value="">All</option>
+        <option value="todo">Todo</option>
+        <option value="doing">Doing</option>
+        <option value="done">Done</option>
+      </select>
+      <button id="themeToggle" class="btn ghost">🌙</button>
+      <button id="logoutBtn" class="btn ghost">🚪 Logout</button>
+    </nav>
+  </div>
+</header>
+
+<main class="section">
+  <div class="container">
+    <div class="toolbar">
+      <div class="left">
+        <div class="dropdown">
+          <button id="newBtn" class="btn primary">＋ New task</button>
+          <div class="menu" id="newMenu">
+            <button data-status="todo">New “Todo”</button>
+            <button data-status="doing">New “Doing”</button>
+            <button data-status="done">New “Done”</button>
+          </div>
+        </div>
+        <button id="bulkDelete" class="btn ghost" disabled>🗑 Delete selected</button>
+      </div>
+      <div class="right small-muted" id="summaryText"></div>
+    </div>
+
+    <!-- TABLE VIEW -->
+    <section id="tableView">
+      <!-- Group: To-Do -->
+      <div class="group">
+        <div class="group-header">To-Do</div>
+        <table class="board">
+          <thead>
+          <tr>
+            <th class="checkbox-col"><input type="checkbox" id="checkAllTodo"/></th>
+            <th>Task</th>
+            <th class="col-status">Status</th>
+            <th class="col-date">Due date</th>
+          </tr>
+          </thead>
+          <tbody id="tbodyTodo"><!-- rows inject --></tbody>
+          <tfoot>
+          <tr><td></td><td colspan="3"><button class="btn link" id="addTodo">＋ Add task</button></td></tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- Group: Completed -->
+      <div class="group">
+        <div class="group-header done">Completed</div>
+        <table class="board">
+          <thead>
+          <tr>
+            <th class="checkbox-col"><input type="checkbox" id="checkAllDone"/></th>
+            <th>Task</th>
+            <th class="col-status">Status</th>
+            <th class="col-date">Due date</th>
+          </tr>
+          </thead>
+          <tbody id="tbodyDone"><!-- rows inject --></tbody>
+          <tfoot>
+          <tr><td></td><td colspan="3"><button class="btn link" id="addDone">＋ Add task</button></td></tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+
+    <!-- CARDS VIEW -->
+    <section id="cardsView" class="hidden">
+      <div id="cardsWrap" class="cards"></div>
+    </section>
+
+    <div id="toast" class="toast hidden"></div>
+  </div>
+</main>
+
+<footer class="footer"><div class="container center muted">© 2025 Task Manager</div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+<script type="module" src="./dashboard.js"></script>
+</body>
+</html>

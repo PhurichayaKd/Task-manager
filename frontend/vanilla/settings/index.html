@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Settings</h1>
+    </header>
+    <main>
+        <section id="language-settings">
+            <h2>Language Settings</h2>
+            <select id="language-selector">
+                <option value="en">English</option>
+                <option value="th">ไทย</option>
+            </select>
+        </section>
+        <section id="theme-settings">
+            <h2>Theme Settings</h2>
+            <button id="theme-toggle">Toggle Theme</button>
+        </section>
+        <section id="notification-settings">
+            <h2>Notification Settings</h2>
+            <form id="notification-form">
+                <label>
+                    <input type="checkbox" id="email-notifications"> Email Notifications
+                </label>
+                <label>
+                    <input type="checkbox" id="sms-notifications"> SMS Notifications
+                </label>
+                <button type="submit">Save Settings</button>
+            </form>
+        </section>
+    </main>
+    <script src="settings.js"></script>
+</body>
+</html>

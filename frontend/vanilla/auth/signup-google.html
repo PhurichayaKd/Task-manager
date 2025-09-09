@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Complete your profile — Task Manager</title>
+  <link rel="stylesheet" href="./styles.css"/>
+</head>
+<body class="auth">
+
+  <header class="mastbar">
+    <div class="mast-inner">
+      <a class="brand" href="../index.html">task<span class="accent">manager</span></a>
+      <nav class="right-actions"></nav>
+    </div>
+  </header>
+
+  <main class="section auth-wrap">
+    <div class="container">
+      <section class="auth-card">
+        <h1 class="title">Complete your profile</h1>
+        <p class="subtitle">เพิ่มข้อมูลเพื่อเสร็จสิ้นการสร้างบัญชี</p>
+
+        <form id="form-google-signup" class="form">
+          <div id="user-info" class="user-info">
+            <img id="user-avatar" class="avatar" src="" alt="Profile picture" style="display: none;">
+            <p id="user-email" class="email-display"></p>
+          </div>
+
+          <input id="display-name" class="input tall center"
+                 type="text" placeholder="ชื่อที่ใช้ในเว็บ" required />
+
+          <input id="username" class="input tall center"
+                 type="text" placeholder="ชื่อผู้ใช้ (username)" required />
+
+          <input id="password" class="input tall center"
+                 type="password" placeholder="รหัสผ่าน (สำหรับล็อกอินด้วยอีเมล)"
+                 required />
+
+          <button class="btn primary gradient-anim sheen btn-block" id="btn-complete">
+            Complete Setup
+          </button>
+        </form>
+
+        <p class="below muted">คุณสามารถใช้ Google หรืออีเมลเพื่อเข้าสู่ระบบได้</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container center muted">© 2025 Task Manager</div>
+  </footer>
+
+  <script src="/utils/auth-utils.js"></script>
+  <script type="module" src="./auth-google-signup.js"></script>
+</body>
+</html>

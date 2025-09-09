@@ -1,0 +1,43 @@
+/* ต่อยอดจาก ../styles.css */
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.toolbar .left{display:flex;gap:8px;align-items:center}
+.small-muted{color:var(--muted);font-size:.9rem}
+
+/* Dropdown */
+.dropdown{position:relative}
+.dropdown .menu{display:none;position:absolute;top:110%;left:0;background:var(--surface);border:1px solid rgba(0,0,0,.1);
+  border-radius:12px;box-shadow:var(--shadow);overflow:hidden;min-width:160px;z-index:10}
+.dropdown.open .menu{display:block}
+.dropdown .menu button{display:block;width:100%;text-align:left;border:none;background:transparent;padding:10px 12px;cursor:pointer}
+.dropdown .menu button:hover{background:rgba(0,0,0,.06)}
+
+.group{margin-bottom:18px;background:var(--card);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.group-header{font-weight:800;padding:10px 12px;border-bottom:1px solid rgba(0,0,0,.06)}
+.group-header.done{color:#16a34a}
+
+.board{width:100%;border-collapse:separate;border-spacing:0 8px;margin:8px 0;padding:0 8px}
+.board thead th{font-weight:700;color:var(--muted);text-align:left;padding:8px}
+.board tbody tr{background:var(--surface);box-shadow:var(--shadow);border-radius:12px;overflow:hidden}
+.board tbody td{padding:10px 8px;vertical-align:middle}
+.checkbox-col{width:36px}
+.col-status{width:160px}
+.col-date{width:170px}
+.cell-title{outline:none}
+
+.status-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;font-weight:700;cursor:pointer}
+.st-todo{background:#e5e7eb;color:#1f2937}
+.st-doing{background:#dbeafe;color:#1e3a8a}
+.st-done{background:#bbf7d0;color:#065f46}
+
+.date-input{width:150px}
+
+.row-actions{display:flex;gap:6px;justify-content:flex-end}
+.row-actions .btn{padding:6px 8px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.card-item{background:var(--surface);border-radius:16px;box-shadow:var(--shadow);padding:12px;display:grid;gap:8px}
+.card-foot{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.9rem}
+
+/* toast */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--surface);border:1px solid rgba(0,0,0,.1);
+  border-radius:12px;box-shadow:var(--shadow);padding:10px 14px}

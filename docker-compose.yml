@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: taskdb
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # migration จะถูกรันอัตโนมัติ “ครั้งแรก” ที่สร้าง volume เท่านั้น
+      - ./internal/db/migrate:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U app -d taskdb"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      # บังคับให้ API ชี้ DB ผ่าน service name "db" เสมอ
+      DB_DSN: postgres://app:app@db:5432/taskdb?sslmode=disable
+      # เผื่อไม่มีใน .env จะมีค่า default ให้
+      GIN_MODE: ${GIN_MODE:-release}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL","wget -qO- http://localhost:8080/healthz || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  web:
+    image: nginx:alpine
+    volumes:
+      # เสิร์ฟไฟล์ตรงจากโฟลเดอร์ frontend/vanilla
+      - ./frontend/vanilla:/usr/share/nginx/html:ro
+    # ภายนอกใช้ 5173 เข้ามายัง 80 ในคอนเทนเนอร์
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  pgdata:

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เชิญเพื่อนเข้าร่วมทีม - Task Manager</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --surface: #ffffff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --accent: #3b82f6;
+            --accent-b: #2563eb;
+            --shadow: 0 12px 28px rgba(17,24,39,.08);
+            --mast-h: 72px;
+        }
+
+        body {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.95) 100%),
+                       radial-gradient(circle at 20% 80%, rgba(59,130,246,0.03) 0%, transparent 50%),
+                       radial-gradient(circle at 80% 20%, rgba(245,158,11,0.02) 0%, transparent 50%);
+            min-height: 100vh;
+            font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Arial;
+            margin: 0;
+        }
+
+        .main-content {
+            display: flex;
+            height: calc(100vh - var(--mast-h));
+            overflow: hidden;
+        }
+        
+        .left-panel {
+            flex: 0 0 45%;
+            padding: 80px 60px 80px 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 600px;
+            overflow-y: auto;
+        }
+
+        .right-panel {
+            flex: 0 0 55%;
+            background: #3b82f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            height: calc(100vh - var(--mast-h));
+        }
+
+        .illustration {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .mastbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--surface);
+            border-bottom: 1px solid #eef2ff;
+            box-shadow: 0 2px 12px rgba(17,24,39,.05);
+        }
+
+        .mast-inner {
+            height: var(--mast-h);
+            max-width: none;
+            margin: 0;
+            padding: 0 120px 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .brand {
+            font-weight: 1000;
+            letter-spacing: .3px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        .brand .accent {
+            color: var(--accent);
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            backdrop-filter: none;
+            text-align: left;
+            transition: none;
+            font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Arial;
+        }
+        
+        .header {
+            text-align: left;
+            margin-bottom: 48px;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--text);
+            margin-bottom: 16px;
+            line-height: 1.1;
+        }
+        
+        .header p {
+            color: var(--muted);
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        .email-input-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            align-items: center;
+        }
+        
+        .email-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+        
+        .email-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        
+        .role-select {
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #ffffff;
+            min-width: 120px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            position: relative;
+            font-weight: 400;
+        }
+        
+        .role-select:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .role-select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59,130,246,0.1);
+        }
+        
+        .role-select:active {
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .add-another {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #3b82f6;
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 40px;
+            padding: 12px 0;
+        }
+        
+        .add-another:hover {
+            color: #2563eb;
+        }
+        
+        .add-icon {
+            width: 20px;
+            height: 20px;
+            border: 2px solid currentColor;
+            border-radius: 50%;
+            position: relative;
+        }
+        
+        .add-icon::before,
+        .add-icon::after {
+            content: '';
+            position: absolute;
+            background: currentColor;
+        }
+        
+        .add-icon::before {
+            width: 8px;
+            height: 2px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .add-icon::after {
+            width: 2px;
+            height: 8px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: flex-end;
+            margin-top: 60px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background: #d1d5db;
+            color: #9ca3af;
+            cursor: not-allowed;
+            min-width: 140px;
+        }
+        
+        .btn-primary.enabled {
+            background: linear-gradient(135deg, var(--accent), var(--accent-b));
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(59,130,246,0.25);
+        }
+        
+        .btn-primary.enabled:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(59,130,246,0.35);
+            filter: brightness(1.05);
+        }
+        
+        .btn-primary.enabled:active {
+            transform: translateY(0);
+            box-shadow: 0 6px 20px rgba(59,130,246,0.3);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-content {
+                flex-direction: column;
+                height: auto;
+                min-height: calc(100vh - var(--mast-h));
+            }
+            
+            .left-panel {
+                flex: none;
+                padding: 40px 40px;
+                max-width: none;
+            }
+            
+            .right-panel {
+                flex: none;
+                height: 300px;
+                order: -1;
+            }
+            
+            .mast-inner {
+                padding: 0 40px 0 32px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .left-panel {
+                padding: 30px 20px;
+            }
+            
+            .mast-inner {
+                padding: 0 20px 0 20px;
+            }
+            
+            .header h1 {
+                font-size: 36px;
+            }
+            
+            .header p {
+                font-size: 16px;
+            }
+            
+            .email-input-group {
+                flex-direction: column;
+                gap: 8px;
+                align-items: stretch;
+            }
+            
+            .email-input {
+                min-width: auto;
+                width: 100%;
+            }
+            
+            .role-select {
+                width: 100%;
+                min-width: auto;
+            }
+            
+            .right-panel {
+                height: 250px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .left-panel {
+                padding: 20px 16px;
+            }
+            
+            .mast-inner {
+                padding: 0 16px;
+            }
+            
+            .header h1 {
+                font-size: 28px;
+            }
+            
+            .header p {
+                font-size: 14px;
+            }
+            
+            .email-input, .role-select {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+            
+            .add-another {
+                font-size: 14px;
+                padding: 10px 0;
+            }
+            
+            .add-icon {
+                width: 16px;
+                height: 16px;
+            }
+            
+            .btn {
+                padding: 14px 24px;
+                font-size: 14px;
+                min-width: 120px;
+            }
+            
+            .right-panel {
+                height: 200px;
+            }
+        }
+        
+        .role-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .role-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 220px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15), 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            z-index: 1000;
+            top: calc(100% + 8px);
+            right: 0;
+            border: 1px solid #e2e8f0;
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(8px);
+            overflow: hidden;
+        }
+        
+        .role-dropdown-content.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        
+        .role-option {
+            padding: 14px 18px;
+            cursor: pointer;
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.15s ease;
+            position: relative;
+        }
+        
+        .role-option:last-child {
+            border-bottom: none;
+        }
+        
+        .role-option:hover {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            transform: translateX(2px);
+        }
+        
+        .role-option.selected {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            color: #1e40af;
+            border-left: 3px solid #3b82f6;
+        }
+        
+        .role-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .role-description {
+            font-size: 12px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <header class="mastbar">
+        <div class="mast-inner">
+            <a class="brand" href="./index.html">task<span class="accent">manager</span></a>
+            <nav class="right-actions"></nav>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="left-panel">
+            <div class="container">
+                <div class="header">
+                    <h1>Who else is on<br>your team?</h1>
+                    <p>เพิ่มสมาชิกทีมและกำหนดบทบาทของแต่ละคน</p>
+                </div>
+        
+        <div id="email-inputs">
+            <div class="email-input-group">
+                <input type="email" class="email-input" placeholder="Add email here">
+                <div class="role-dropdown">
+                    <button class="role-select" onclick="toggleDropdown(this)">Admin ▼</button>
+                    <div class="role-dropdown-content">
+                        <div class="role-option selected" onclick="selectRole(this, 'Admin')">
+                            <div class="role-title">Admin</div>
+                            <div class="role-description">Can invite & manage new users</div>
+                        </div>
+                        <div class="role-option" onclick="selectRole(this, 'Member')">
+                            <div class="role-title">Member</div>
+                            <div class="role-description">Can add and edit content</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="email-input-group">
+                <input type="email" class="email-input" placeholder="Add email here">
+                <div class="role-dropdown">
+                    <button class="role-select" onclick="toggleDropdown(this)">Admin ▼</button>
+                    <div class="role-dropdown-content">
+                        <div class="role-option selected" onclick="selectRole(this, 'Admin')">
+                            <div class="role-title">Admin</div>
+                            <div class="role-description">Can invite & manage new users</div>
+                        </div>
+                        <div class="role-option" onclick="selectRole(this, 'Member')">
+                            <div class="role-title">Member</div>
+                            <div class="role-description">Can add and edit content</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="add-another" onclick="addEmailInput()">
+            <div class="add-icon"></div>
+            Add another
+        </button>
+        
+                <div class="buttons">
+                    <button class="btn btn-primary" id="continue-btn" onclick="inviteTeam()">Invite your team</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="right-panel">
+             <svg class="illustration" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                 <!-- Background gradient -->
+                 <defs>
+                     <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                         <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                         <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+                     </linearGradient>
+                     <linearGradient id="personGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                         <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.95" />
+                         <stop offset="100%" style="stop-color:#f1f5f9;stop-opacity:0.9" />
+                     </linearGradient>
+                     <filter id="glow">
+                         <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                         <feMerge> 
+                             <feMergeNode in="coloredBlur"/>
+                             <feMergeNode in="SourceGraphic"/> 
+                         </feMerge>
+                     </filter>
+                 </defs>
+                 
+                 <!-- Background -->
+                 <rect width="800" height="600" fill="url(#bgGradient)"/>
+                 
+                 <!-- Floating elements -->
+                 <circle cx="150" cy="120" r="8" fill="rgba(255,255,255,0.2)" opacity="0.6">
+                     <animate attributeName="cy" values="120;100;120" dur="3s" repeatCount="indefinite"/>
+                 </circle>
+                 <circle cx="680" cy="180" r="6" fill="rgba(255,255,255,0.15)" opacity="0.5">
+                     <animate attributeName="cy" values="180;160;180" dur="4s" repeatCount="indefinite"/>
+                 </circle>
+                 <circle cx="720" cy="450" r="10" fill="rgba(255,255,255,0.1)" opacity="0.4">
+                     <animate attributeName="cy" values="450;430;450" dur="5s" repeatCount="indefinite"/>
+                 </circle>
+                 
+                 <!-- Central collaboration hub -->
+                 <g transform="translate(400,300)">
+                     <!-- Central platform -->
+                     <ellipse cx="0" cy="40" rx="120" ry="20" fill="rgba(255,255,255,0.1)"/>
+                     
+                     <!-- Team members around the circle -->
+                     <!-- Person 1 (top) -->
+                     <g transform="translate(0,-80)">
+                         <circle cx="0" cy="0" r="25" fill="url(#personGradient)" filter="url(#glow)"/>
+                         <circle cx="0" cy="-8" r="8" fill="#3b82f6"/>
+                         <path d="M-12,8 Q0,15 12,8" fill="#3b82f6"/>
+                         <!-- Connection line -->
+                         <line x1="0" y1="25" x2="0" y2="60" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-dasharray="5,5">
+                             <animate attributeName="stroke-dashoffset" values="0;10" dur="2s" repeatCount="indefinite"/>
+                         </line>
+                     </g>
+                     
+                     <!-- Person 2 (top-right) -->
+                     <g transform="translate(70,-40)">
+                         <circle cx="0" cy="0" r="25" fill="url(#personGradient)" filter="url(#glow)"/>
+                         <circle cx="0" cy="-8" r="8" fill="#3b82f6"/>
+                         <path d="M-12,8 Q0,15 12,8" fill="#3b82f6"/>
+                         <!-- Connection line -->
+                         <line x1="-15" y1="20" x2="-50" y2="45" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-dasharray="5,5">
+                             <animate attributeName="stroke-dashoffset" values="0;10" dur="2.5s" repeatCount="indefinite"/>
+                         </line>
+                     </g>
+                     
+                     <!-- Person 3 (bottom-right) -->
+                     <g transform="translate(70,40)">
+                         <circle cx="0" cy="0" r="25" fill="url(#personGradient)" filter="url(#glow)"/>
+                         <circle cx="0" cy="-8" r="8" fill="#3b82f6"/>
+                         <path d="M-12,8 Q0,15 12,8" fill="#3b82f6"/>
+                         <!-- Connection line -->
+                         <line x1="-15" y1="-20" x2="-50" y2="-5" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-dasharray="5,5">
+                             <animate attributeName="stroke-dashoffset" values="0;10" dur="3s" repeatCount="indefinite"/>
+                         </line>
+                     </g>
+                     
+                     <!-- Person 4 (bottom-left) -->
+                     <g transform="translate(-70,40)">
+                         <circle cx="0" cy="0" r="25" fill="url(#personGradient)" filter="url(#glow)"/>
+                         <circle cx="0" cy="-8" r="8" fill="#3b82f6"/>
+                         <path d="M-12,8 Q0,15 12,8" fill="#3b82f6"/>
+                         <!-- Connection line -->
+                         <line x1="15" y1="-20" x2="50" y2="-5" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-dasharray="5,5">
+                             <animate attributeName="stroke-dashoffset" values="0;10" dur="2.2s" repeatCount="indefinite"/>
+                         </line>
+                     </g>
+                     
+                     <!-- Person 5 (top-left) -->
+                     <g transform="translate(-70,-40)">
+                         <circle cx="0" cy="0" r="25" fill="url(#personGradient)" filter="url(#glow)"/>
+                         <circle cx="0" cy="-8" r="8" fill="#3b82f6"/>
+                         <path d="M-12,8 Q0,15 12,8" fill="#3b82f6"/>
+                         <!-- Connection line -->
+                         <line x1="15" y1="20" x2="50" y2="45" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-dasharray="5,5">
+                             <animate attributeName="stroke-dashoffset" values="0;10" dur="2.8s" repeatCount="indefinite"/>
+                         </line>
+                     </g>
+                     
+                     <!-- Central hub -->
+                     <circle cx="0" cy="0" r="35" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+                     <circle cx="0" cy="0" r="20" fill="rgba(255,255,255,0.2)"/>
+                     
+                     <!-- Team icon in center -->
+                     <g transform="translate(0,0)">
+                         <path d="M-8,-8 L8,-8 L8,8 L-8,8 Z" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+                         <circle cx="-4" cy="-2" r="2" fill="#3b82f6"/>
+                         <circle cx="4" cy="-2" r="2" fill="#3b82f6"/>
+                         <circle cx="0" cy="4" r="2" fill="#3b82f6"/>
+                     </g>
+                 </g>
+                 
+                 <!-- Collaboration symbols -->
+                 <g transform="translate(200,150)">
+                     <circle cx="0" cy="0" r="15" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+                     <path d="M-6,-3 L-2,3 L6,-5" stroke="rgba(255,255,255,0.8)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                 </g>
+                 
+                 <g transform="translate(600,400)">
+                     <circle cx="0" cy="0" r="15" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+                     <rect x="-6" y="-6" width="12" height="8" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" rx="1"/>
+                     <line x1="-4" y1="-2" x2="4" y2="-2" stroke="rgba(255,255,255,0.8)" stroke-width="1"/>
+                     <line x1="-4" y1="1" x2="2" y2="1" stroke="rgba(255,255,255,0.8)" stroke-width="1"/>
+                 </g>
+                 
+                 <!-- Message bubbles -->
+                 <g transform="translate(150,350)">
+                     <ellipse cx="0" cy="0" rx="25" ry="15" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+                     <circle cx="-8" cy="-3" r="1.5" fill="rgba(255,255,255,0.8)"/>
+                     <circle cx="0" cy="-3" r="1.5" fill="rgba(255,255,255,0.8)"/>
+                     <circle cx="8" cy="-3" r="1.5" fill="rgba(255,255,255,0.8)"/>
+                     <path d="M-5,8 L0,15 L5,8" fill="rgba(255,255,255,0.15)"/>
+                 </g>
+                 
+                 <g transform="translate(650,200)">
+                     <ellipse cx="0" cy="0" rx="20" ry="12" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+                     <path d="M-8,-2 L8,-2 M-6,2 L6,2" stroke="rgba(255,255,255,0.8)" stroke-width="1" stroke-linecap="round"/>
+                     <path d="M5,-8 L0,-15 L-5,-8" fill="rgba(255,255,255,0.15)"/>
+                 </g>
+             </svg>
+         </div>
+    </div>
+    
+    <script>
+        function toggleDropdown(button) {
+            const dropdown = button.nextElementSibling;
+            dropdown.classList.toggle('show');
+            
+            // Close other dropdowns
+            document.querySelectorAll('.role-dropdown-content').forEach(d => {
+                if (d !== dropdown) {
+                    d.classList.remove('show');
+                }
+            });
+        }
+        
+        function selectRole(option, role) {
+            const dropdown = option.parentElement;
+            const button = dropdown.previousElementSibling;
+            
+            // Update button text
+            button.textContent = role + ' ▼';
+            
+            // Update selected state
+            dropdown.querySelectorAll('.role-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            option.classList.add('selected');
+            
+            // Close dropdown
+            dropdown.classList.remove('show');
+        }
+        
+        function addEmailInput() {
+            const container = document.getElementById('email-inputs');
+            const newGroup = document.createElement('div');
+            newGroup.className = 'email-input-group';
+            newGroup.innerHTML = `
+                <input type="email" class="email-input" placeholder="Add email here">
+                <div class="role-dropdown">
+                    <button class="role-select" onclick="toggleDropdown(this)">Admin ▼</button>
+                    <div class="role-dropdown-content">
+                        <div class="role-option selected" onclick="selectRole(this, 'Admin')">
+                            <div class="role-title">Admin</div>
+                            <div class="role-description">Can invite & manage new users</div>
+                        </div>
+                        <div class="role-option" onclick="selectRole(this, 'Member')">
+                            <div class="role-title">Member</div>
+                            <div class="role-description">Can add and edit content</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(newGroup);
+            
+            // Add event listener to new input
+            const newInput = newGroup.querySelector('.email-input');
+            newInput.addEventListener('input', checkInputs);
+            
+            checkInputs();
+        }
+        
+        function checkInputs() {
+            const inputs = document.querySelectorAll('.email-input');
+            const continueBtn = document.getElementById('continue-btn');
+            
+            let hasValue = false;
+            inputs.forEach(input => {
+                if (input.value.trim() !== '') {
+                    hasValue = true;
+                }
+            });
+            
+            if (hasValue) {
+                continueBtn.classList.add('enabled');
+            } else {
+                continueBtn.classList.remove('enabled');
+            }
+        }
+        
+        function inviteTeam() {
+            const continueBtn = document.getElementById('continue-btn');
+            if (!continueBtn.classList.contains('enabled')) {
+                return;
+            }
+            
+            // Collect email data
+            const emailData = [];
+            const inputGroups = document.querySelectorAll('.email-input-group');
+            
+            inputGroups.forEach(group => {
+                const email = group.querySelector('.email-input').value.trim();
+                const role = group.querySelector('.role-select').textContent.replace(' ▼', '');
+                
+                if (email) {
+                    emailData.push({ email, role });
+                }
+            });
+            
+            console.log('Inviting team members:', emailData);
+            
+            // Redirect to home dashboard
+            window.location.href = '/home.html';
+        }
+        
+
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.role-dropdown')) {
+                document.querySelectorAll('.role-dropdown-content').forEach(dropdown => {
+                    dropdown.classList.remove('show');
+                });
+            }
+        });
+        
+        // Add event listeners to existing inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.email-input');
+            inputs.forEach(input => {
+                input.addEventListener('input', checkInputs);
+            });
+            
+            checkInputs();
+        });
+    </script>
+</body>
+</html>

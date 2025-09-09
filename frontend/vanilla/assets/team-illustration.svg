@@ -1,0 +1,136 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="400" height="300" fill="#10b981"/>
+  
+  <!-- Decorative dots -->
+  <circle cx="60" cy="40" r="2" fill="white" opacity="0.6"/>
+  <circle cx="340" cy="50" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="80" cy="260" r="2.5" fill="white" opacity="0.5"/>
+  <circle cx="320" cy="240" r="1.8" fill="white" opacity="0.6"/>
+  
+  <!-- Calendar/Schedule Board -->
+  <g transform="translate(50, 60)">
+    <!-- Calendar background -->
+    <rect x="0" y="0" width="120" height="140" rx="8" fill="white" stroke="#059669" stroke-width="2"/>
+    
+    <!-- Calendar header -->
+    <rect x="0" y="0" width="120" height="25" rx="8" fill="#059669"/>
+    <rect x="0" y="17" width="120" height="8" fill="#059669"/>
+    
+    <!-- Calendar rings -->
+    <circle cx="25" cy="-8" r="3" fill="none" stroke="#047857" stroke-width="2"/>
+    <circle cx="95" cy="-8" r="3" fill="none" stroke="#047857" stroke-width="2"/>
+    
+    <!-- Calendar grid lines -->
+    <line x1="10" y1="40" x2="110" y2="40" stroke="#d1fae5" stroke-width="1"/>
+    <line x1="10" y1="55" x2="110" y2="55" stroke="#d1fae5" stroke-width="1"/>
+    <line x1="10" y1="70" x2="110" y2="70" stroke="#d1fae5" stroke-width="1"/>
+    <line x1="10" y1="85" x2="110" y2="85" stroke="#d1fae5" stroke-width="1"/>
+    <line x1="10" y1="100" x2="110" y2="100" stroke="#d1fae5" stroke-width="1"/>
+    <line x1="10" y1="115" x2="110" y2="115" stroke="#d1fae5" stroke-width="1"/>
+    
+    <!-- Vertical lines -->
+    <line x1="30" y1="30" x2="30" y2="130" stroke="#d1fae5" stroke-width="1"/>
+    <line x1="50" y1="30" x2="50" y2="130" stroke="#d1fae5" stroke-width="1"/>
+    <line x1="70" y1="30" x2="70" y2="130" stroke="#d1fae5" stroke-width="1"/>
+    <line x1="90" y1="30" x2="90" y2="130" stroke="#d1fae5" stroke-width="1"/>
+    
+    <!-- Calendar entries/tasks -->
+    <rect x="12" y="42" width="16" height="10" rx="2" fill="#fbbf24"/>
+    <rect x="32" y="57" width="16" height="10" rx="2" fill="#ef4444"/>
+    <rect x="52" y="72" width="16" height="10" rx="2" fill="#8b5cf6"/>
+    <rect x="72" y="87" width="16" height="10" rx="2" fill="#06b6d4"/>
+    <rect x="12" y="102" width="36" height="10" rx="2" fill="#10b981"/>
+  </g>
+  
+  <!-- Cute character with clock -->
+  <g transform="translate(220, 80)">
+    <!-- Character body -->
+    <ellipse cx="0" cy="30" rx="20" ry="25" fill="white" stroke="#059669" stroke-width="2"/>
+    
+    <!-- Character head -->
+    <circle cx="0" cy="0" r="15" fill="white" stroke="#059669" stroke-width="2"/>
+    
+    <!-- Eyes -->
+    <circle cx="-5" cy="-3" r="2" fill="#059669"/>
+    <circle cx="5" cy="-3" r="2" fill="#059669"/>
+    
+    <!-- Smile -->
+    <path d="M -6 3 Q 0 8 6 3" stroke="#059669" stroke-width="2" fill="none" stroke-linecap="round"/>
+    
+    <!-- Arms -->
+    <line x1="-18" y1="20" x2="-25" y2="15" stroke="#059669" stroke-width="3" stroke-linecap="round"/>
+    <line x1="18" y1="20" x2="35" y2="10" stroke="#059669" stroke-width="3" stroke-linecap="round"/>
+    
+    <!-- Clock in hand -->
+    <circle cx="35" cy="10" r="8" fill="white" stroke="#059669" stroke-width="2"/>
+    <line x1="35" y1="10" x2="35" y2="6" stroke="#059669" stroke-width="1.5"/>
+    <line x1="35" y1="10" x2="38" y2="10" stroke="#059669" stroke-width="1"/>
+    
+    <!-- Legs -->
+    <line x1="-8" y1="50" x2="-8" y2="65" stroke="#059669" stroke-width="3" stroke-linecap="round"/>
+    <line x1="8" y1="50" x2="8" y2="65" stroke="#059669" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Floating schedule items -->
+  <g transform="translate(280, 160)">
+    <!-- Task list -->
+    <rect x="0" y="0" width="80" height="60" rx="6" fill="white" stroke="#059669" stroke-width="2"/>
+    
+    <!-- Checkboxes and tasks -->
+    <rect x="8" y="10" width="6" height="6" rx="1" fill="none" stroke="#059669" stroke-width="1"/>
+    <path d="M 9 12 L 11 14 L 13 10" stroke="#10b981" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <line x1="18" y1="13" x2="65" y2="13" stroke="#d1fae5" stroke-width="2" stroke-linecap="round"/>
+    
+    <rect x="8" y="22" width="6" height="6" rx="1" fill="none" stroke="#059669" stroke-width="1"/>
+    <line x1="18" y1="25" x2="55" y2="25" stroke="#d1fae5" stroke-width="2" stroke-linecap="round"/>
+    
+    <rect x="8" y="34" width="6" height="6" rx="1" fill="none" stroke="#059669" stroke-width="1"/>
+    <line x1="18" y1="37" x2="70" y2="37" stroke="#d1fae5" stroke-width="2" stroke-linecap="round"/>
+    
+    <rect x="8" y="46" width="6" height="6" rx="1" fill="none" stroke="#059669" stroke-width="1"/>
+    <line x1="18" y1="49" x2="60" y2="49" stroke="#d1fae5" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Another cute character -->
+  <g transform="translate(120, 180)">
+    <!-- Character body -->
+    <ellipse cx="0" cy="25" rx="18" ry="22" fill="white" stroke="#059669" stroke-width="2"/>
+    
+    <!-- Character head -->
+    <circle cx="0" cy="0" r="13" fill="white" stroke="#059669" stroke-width="2"/>
+    
+    <!-- Eyes -->
+    <circle cx="-4" cy="-2" r="1.5" fill="#059669"/>
+    <circle cx="4" cy="-2" r="1.5" fill="#059669"/>
+    
+    <!-- Happy expression -->
+    <path d="M -5 2 Q 0 6 5 2" stroke="#059669" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    
+    <!-- Arms pointing to calendar -->
+    <line x1="-15" y1="18" x2="-35" y2="-20" stroke="#059669" stroke-width="3" stroke-linecap="round"/>
+    <line x1="15" y1="18" x2="25" y2="12" stroke="#059669" stroke-width="3" stroke-linecap="round"/>
+    
+    <!-- Legs -->
+    <line x1="-7" y1="42" x2="-7" y2="55" stroke="#059669" stroke-width="3" stroke-linecap="round"/>
+    <line x1="7" y1="42" x2="7" y2="55" stroke="#059669" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Floating time elements -->
+  <g transform="translate(300, 50)">
+    <!-- Small clock -->
+    <circle cx="0" cy="0" r="12" fill="white" stroke="#059669" stroke-width="2"/>
+    <circle cx="0" cy="0" r="1" fill="#059669"/>
+    <line x1="0" y1="0" x2="0" y2="-8" stroke="#059669" stroke-width="1.5"/>
+    <line x1="0" y1="0" x2="6" y2="0" stroke="#059669" stroke-width="1"/>
+  </g>
+  
+  <!-- Decorative stars -->
+  <g transform="translate(350, 120)">
+    <path d="M 0 -6 L 2 -2 L 6 -2 L 3 1 L 4 5 L 0 3 L -4 5 L -3 1 L -6 -2 L -2 -2 Z" fill="#fbbf24" opacity="0.8"/>
+  </g>
+  
+  <g transform="translate(40, 200)">
+    <path d="M 0 -4 L 1.5 -1.5 L 4 -1.5 L 2 0.5 L 2.5 3 L 0 2 L -2.5 3 L -2 0.5 L -4 -1.5 L -1.5 -1.5 Z" fill="#fbbf24" opacity="0.6"/>
+  </g>
+</svg>

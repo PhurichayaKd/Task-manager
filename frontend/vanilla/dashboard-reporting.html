@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard and reporting - Task Manager</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: white;
+            border-right: 1px solid #e1e5e9;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+        
+        .sidebar-header {
+            padding: 16px;
+            border-bottom: 1px solid #e1e5e9;
+        }
+        
+        .sidebar-logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 0;
+        }
+        
+        .nav-section {
+            margin-bottom: 24px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .nav-item:hover {
+            background: #f5f6f8;
+            color: #333;
+        }
+        
+        .nav-item.active {
+            background: #e3f2fd;
+            color: #1976d2;
+            border-right: 3px solid #1976d2;
+        }
+        
+        .nav-item-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-item-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .nav-section-title {
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .favorites-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 16px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .favorites-toggle:hover {
+            background: #f5f6f8;
+        }
+        
+        .favorites-content {
+            display: none;
+            padding-left: 32px;
+        }
+        
+        .favorites-content.show {
+            display: block;
+        }
+        
+        .favorites-empty {
+            padding: 8px 16px;
+            color: #999;
+            font-size: 13px;
+            font-style: italic;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Top Bar */
+        .top-bar {
+            height: 60px;
+            background: white;
+            border-bottom: 1px solid #e1e5e9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+        }
+        
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .top-bar-logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1976d2;
+        }
+        
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .top-bar-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #f5f6f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 16px;
+        }
+        
+        .top-bar-icon:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #1976d2;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        /* Dashboard Content */
+        .dashboard-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            justify-content: between;
+            margin-bottom: 24px;
+        }
+        
+        .dashboard-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .star-icon {
+            color: #ffc107;
+            font-size: 20px;
+        }
+        
+        .dashboard-tabs {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #e1e5e9;
+        }
+        
+        .tab {
+            padding: 12px 16px;
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .tab.active {
+            color: #1976d2;
+            border-bottom-color: #1976d2;
+        }
+        
+        .tab:hover {
+            color: #333;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .metric-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #e1e5e9;
+            text-align: center;
+        }
+        
+        .metric-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .metric-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .metric-blue { color: #1976d2; }
+        .metric-green { color: #4caf50; }
+        .metric-red { color: #f44336; }
+        .metric-orange { color: #ff9800; }
+        
+        .charts-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        
+        .chart-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #e1e5e9;
+        }
+        
+        .chart-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .chart-placeholder {
+            height: 200px;
+            background: #f5f6f8;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .pie-chart {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #4caf50 0deg 240deg,
+                #f44336 240deg 360deg
+            );
+        }
+        
+        .chart-legend {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+            font-size: 12px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+        
+        .bar-chart {
+            display: flex;
+            align-items: end;
+            gap: 8px;
+            height: 120px;
+            padding: 20px 0;
+        }
+        
+        .bar {
+            flex: 1;
+            background: #1976d2;
+            border-radius: 4px 4px 0 0;
+            min-height: 20px;
+        }
+        
+        .bar-1 { height: 30%; }
+        .bar-2 { height: 60%; }
+        .bar-3 { height: 45%; }
+        .bar-4 { height: 80%; }
+        .bar-5 { height: 35%; }
+        .bar-6 { height: 90%; }
+        .bar-7 { height: 25%; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">Task Manager</div>
+            </div>
+            
+            <div class="sidebar-nav">
+                <!-- Main Navigation -->
+                <div class="nav-section">
+                    <a href="/home.html" class="nav-item">
+                        <div class="nav-item-icon">🏠</div>
+                        <div class="nav-item-text">Home</div>
+                    </a>
+                    
+                    <a href="#" class="nav-item">
+                        <div class="nav-item-icon">📋</div>
+                        <div class="nav-item-text">My work</div>
+                    </a>
+                    
+                    <div class="favorites-toggle" onclick="toggleFavorites()">
+                        <div style="display: flex; align-items: center;">
+                            <div class="nav-item-icon">⭐</div>
+                            <div class="nav-item-text">Favorites</div>
+                        </div>
+                        <span id="favoritesArrow">▼</span>
+                    </div>
+                    
+                    <div class="favorites-content" id="favoritesContent">
+                        <div class="favorites-empty">No favorites yet</div>
+                    </div>
+                </div>
+                
+                <!-- Workspaces -->
+                <div class="nav-section">
+                    <div class="nav-section-title">Workspaces</div>
+                    
+                    <div class="nav-item">
+                        <div class="nav-item-icon">M</div>
+                        <div class="nav-item-text">Main workspace</div>
+                    </div>
+                </div>
+                
+                <!-- Recently viewed -->
+                <div class="nav-section">
+                    <div class="nav-section-title">Recently viewed</div>
+                    
+                    <div class="nav-item active">
+                        <div class="nav-item-icon">📊</div>
+                        <div class="nav-item-text">Dashboard and reporting</div>
+                    </div>
+                    
+                    <div class="nav-item" onclick="openProject()">
+                        <div class="nav-item-icon">📋</div>
+                        <div class="nav-item-text">project53</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <div class="top-bar-logo">monday</div>
+                </div>
+                
+                <div class="top-bar-right">
+                    <button class="top-bar-icon" title="Add people">👥</button>
+                    <button class="top-bar-icon" title="Notifications">🔔</button>
+                    <div class="user-avatar" title="User profile">U</div>
+                </div>
+            </div>
+            
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-title">
+                        Dashboard and reporting
+                        <span class="star-icon">⭐</span>
+                    </h1>
+                </div>
+                
+                <div class="dashboard-tabs">
+                    <button class="tab active">View</button>
+                    <button class="tab">Edit</button>
+                </div>
+                
+                <!-- Metrics Cards -->
+                <div class="dashboard-grid">
+                    <div class="metric-card">
+                        <div class="metric-title">
+                            All Tasks
+                            <span>📊</span>
+                        </div>
+                        <div class="metric-value metric-blue">4</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-title">
+                            In progress
+                            <span>🔄</span>
+                        </div>
+                        <div class="metric-value metric-orange">0</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-title">
+                            Stuck
+                            <span>⚠️</span>
+                        </div>
+                        <div class="metric-value metric-red">1</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-title">
+                            Done
+                            <span>✅</span>
+                        </div>
+                        <div class="metric-value metric-green">2</div>
+                    </div>
+                </div>
+                
+                <!-- Charts Section -->
+                <div class="charts-section">
+                    <div class="chart-card">
+                        <div class="chart-title">
+                            Tasks by status
+                            <span>📊</span>
+                        </div>
+                        <div class="chart-placeholder">
+                            <div class="pie-chart"></div>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #4caf50;"></div>
+                                <span>Done: 66.7%</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #f44336;"></div>
+                                <span>Stuck: 33.3%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="chart-title">
+                            Tasks by owner
+                            <span>👥</span>
+                        </div>
+                        <div class="chart-placeholder">
+                            <div class="bar-chart">
+                                <div class="bar bar-1"></div>
+                                <div class="bar bar-2"></div>
+                                <div class="bar bar-3"></div>
+                                <div class="bar bar-4"></div>
+                                <div class="bar bar-5"></div>
+                                <div class="bar bar-6"></div>
+                                <div class="bar bar-7"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function toggleFavorites() {
+            const content = document.getElementById('favoritesContent');
+            const arrow = document.getElementById('favoritesArrow');
+            
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                arrow.textContent = '▼';
+            } else {
+                content.classList.add('show');
+                arrow.textContent = '▲';
+            }
+        }
+        
+        function openProject() {
+            window.location.href = '/home.html';
+        }
+    </script>
+</body>
+</html>

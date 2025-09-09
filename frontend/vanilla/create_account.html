@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Create Account — Task Manager</title>
+  <link rel="stylesheet" href="./styles.css"/>
+  <link rel="stylesheet" href="./auth/styles.css"/>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #6366f1;
+      --accent-b: #7b7dfc;
+      --shadow: 0 12px 28px rgba(17,24,39,.08);
+      --mast-h: 72px;
+    }
+
+    .brand .accent { color: var(--accent); }
+    
+    /* Override button colors to blue */
+    .btn.primary.gradient-anim {
+      background: linear-gradient(135deg, var(--accent), var(--accent-b));
+      color: white;
+      box-shadow: 0 8px 25px rgba(99,102,241,0.25);
+    }
+    
+    .btn.primary.gradient-anim:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(99,102,241,0.35);
+      filter: brightness(1.05);
+    }
+    
+    .btn.primary.gradient-anim:active {
+      transform: translateY(0);
+      box-shadow: 0 6px 20px rgba(99,102,241,0.3);
+    }
+    
+    body.create-account {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.95) 100%),
+                 radial-gradient(circle at 20% 80%, rgba(236,72,153,0.03) 0%, transparent 50%),
+                 radial-gradient(circle at 80% 20%, rgba(244,114,182,0.02) 0%, transparent 50%);
+      min-height: 100vh;
+      font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Arial;
+    }
+
+    .main-content {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+    
+    .left-panel {
+      flex: 0 0 45%;
+      padding: calc(var(--mast-h) + 80px) 60px 80px 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 600px;
+      overflow-y: auto;
+    }
+
+    .right-panel {
+      flex: 0 0 55%;
+      background: linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #fce7f3 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .illustration {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .mastbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(252, 231, 243, 0.5);
+      box-shadow: 0 2px 12px rgba(17,24,39,.05);
+    }
+
+    .mast-inner {
+      height: var(--mast-h);
+      max-width: none;
+      margin: 0;
+      padding: 0 120px 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .brand {
+      font-weight: 1000;
+      letter-spacing: .3px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .create-account-container {
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+      text-align: left;
+      transition: none;
+    }
+    
+    .auth-card {
+      background: rgba(255,255,255,0.95) !important;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .title {
+      font-size: 48px;
+      font-weight: 900;
+      color: var(--text);
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+    
+    .subnote {
+      color: var(--muted);
+      margin-bottom: 32px;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    
+    /* Responsive design */
+     @media (max-width: 1200px) {
+       .left-panel {
+         flex: 0 0 50%;
+         padding: calc(var(--mast-h) + 60px) 40px 60px 40px;
+       }
+       
+       .right-panel {
+         flex: 0 0 50%;
+       }
+       
+       .mast-inner {
+         padding: 0 40px 0 32px;
+       }
+     }
+     
+     @media (max-width: 1024px) {
+       .left-panel {
+         padding: calc(var(--mast-h) + 50px) 30px 50px 30px;
+       }
+       
+       .title {
+         font-size: 42px;
+       }
+       
+       .subnote {
+         font-size: 16px;
+       }
+     }
+     
+     @media (max-width: 768px) {
+       .main-content {
+         flex-direction: column;
+         height: 100vh;
+       }
+       
+       .left-panel {
+         flex: none;
+         padding: calc(var(--mast-h) + 40px) 20px 40px 20px;
+         min-height: auto;
+         justify-content: flex-start;
+         height: 60vh;
+         overflow-y: auto;
+       }
+       
+       .right-panel {
+         flex: none;
+         height: 40vh;
+         min-height: 300px;
+         order: -1;
+       }
+       
+       .title {
+         font-size: 36px;
+         margin-bottom: 12px;
+       }
+       
+       .subnote {
+         font-size: 16px;
+         margin-bottom: 24px;
+       }
+       
+       .auth-card {
+         padding: 32px;
+       }
+       
+       .mast-inner {
+         padding: 0 20px 0 20px;
+       }
+     }
+     
+     @media (max-width: 480px) {
+       .left-panel {
+         padding: calc(var(--mast-h) + 30px) 16px 30px 16px;
+         height: 65vh;
+       }
+       
+       .right-panel {
+         height: 35vh;
+         min-height: 250px;
+       }
+       
+       .auth-card {
+         padding: 24px;
+         border-radius: 12px;
+       }
+       
+       .title {
+         font-size: 28px;
+         margin-bottom: 8px;
+       }
+       
+       .subnote {
+         font-size: 14px;
+         margin-bottom: 20px;
+       }
+       
+       .brand {
+         font-size: 20px;
+       }
+       
+       .mast-inner {
+         padding: 0 16px;
+       }
+       
+       .form-group {
+         margin-bottom: 16px;
+       }
+       
+       .form-group label {
+         font-size: 14px;
+       }
+       
+       .form-group input {
+         padding: 12px;
+         font-size: 16px;
+       }
+       
+       .btn {
+         padding: 14px;
+         font-size: 16px;
+       }
+     }
+     
+     @media (max-width: 360px) {
+       .left-panel {
+         padding: calc(var(--mast-h) + 20px) 12px 20px 12px;
+         height: 70vh;
+       }
+       
+       .auth-card {
+         padding: 20px;
+       }
+       
+       .title {
+         font-size: 24px;
+       }
+       
+       .subnote {
+         font-size: 13px;
+       }
+       
+       .right-panel {
+         height: 30vh;
+         min-height: 200px;
+       }
+     }
+  </style>
+</head>
+<body class="auth create-account">
+
+  <header class="mastbar">
+    <div class="mast-inner">
+      <a class="brand" href="./index.html">task<span class="accent">manager</span></a>
+      <nav class="right-actions"></nav>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <div class="left-panel">
+      <div class="create-account-container">
+        <h1 class="title">Set up your account</h1>
+        <p class="subnote">Please enter your username and password to complete registration</p>
+        
+        <div class="email-display" style="background: #f8f9fa; padding: 12px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e9ecef;">
+          <p class="subnote" style="margin: 0; color: #6c757d;">Registration email:</p>
+          <p id="display-email" style="margin: 5px 0 0 0; font-weight: 500; color: #495057;">Loading...</p>
+        </div>
+
+        <form id="form-create-account" class="form">
+          <input id="username" class="input tall"
+                 type="text" placeholder="Username" required />
+
+          <input id="password" class="input tall"
+                 type="password" placeholder="Password"
+                 required />
+
+          <button class="btn primary gradient-anim sheen btn-block" type="submit">
+            Create Account
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <!-- Purple SVG Illustration for Account Creation -->
+      <svg class="illustration" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%;" preserveAspectRatio="xMidYMid slice">
+        <!-- Solid purple background and elements -->
+        <defs>
+          <filter id="purpleGlow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge> 
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/> 
+            </feMerge>
+          </filter>
+        </defs>
+        
+        <!-- Solid purple background -->
+        <rect width="800" height="800" fill="#8b5cf6"/>
+        
+        <!-- Floating user icons and elements -->
+        <g transform="translate(150,480)">
+          <circle cx="0" cy="0" r="12" fill="rgba(255,255,255,0.9)" opacity="0.8">
+            <animate attributeName="cy" values="0;-20;0" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="0" cy="-3" r="4" fill="#8b5cf6"/>
+          <path d="M-6,6 Q0,10 6,6" fill="#8b5cf6"/>
+        </g>
+        
+        <g transform="translate(680,440)">
+          <rect x="-8" y="-6" width="16" height="12" rx="3" fill="rgba(255,255,255,0.9)" opacity="0.7">
+            <animate attributeName="y" values="-6;-16;-6" dur="4s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.7;1;0.7" dur="4s" repeatCount="indefinite"/>
+          </rect>
+          <path d="M-4,-2 L4,-2 M-4,2 L4,2" stroke="#8b5cf6" stroke-width="1.5"/>
+        </g>
+        
+        <g transform="translate(720,510)">
+          <circle cx="0" cy="0" r="8" fill="rgba(255,255,255,0.8)" opacity="0.6">
+            <animate attributeName="cy" values="0;-25;0" dur="5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="5s" repeatCount="indefinite"/>
+          </circle>
+          <path d="M-3,-3 L3,3 M3,-3 L-3,3" stroke="#8b5cf6" stroke-width="2"/>
+        </g>
+        
+        <g transform="translate(580,460)">
+          <rect x="-6" y="-4" width="12" height="8" rx="2" fill="rgba(255,255,255,0.9)" opacity="0.8">
+            <animate attributeName="y" values="-4;-14;-4" dur="2.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.8;1;0.8" dur="2.5s" repeatCount="indefinite"/>
+          </rect>
+          <circle cx="0" cy="0" r="2" fill="#8b5cf6"/>
+        </g>
+        
+        <g transform="translate(200,410)">
+          <polygon points="-5,-5 5,-5 0,5" fill="rgba(255,255,255,0.8)" opacity="0.7">
+            <animate attributeName="transform" values="translate(200,410);translate(200,390);translate(200,410)" dur="3.5s" repeatCount="indefinite"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 200 410;10 200 410;0 200 410" dur="3.5s" repeatCount="indefinite"/>
+          </polygon>
+        </g>
+        
+        <!-- Central account creation illustration -->
+        <g transform="translate(400,400)">
+          <!-- Main account creation form background -->
+          <rect x="-120" y="-80" width="240" height="160" rx="16" fill="rgba(255,255,255,0.95)" filter="url(#purpleGlow)" opacity="0.9">
+            <animate attributeName="opacity" values="0.9;1;0.9" dur="4s" repeatCount="indefinite"/>
+          </rect>
+          
+          <!-- Large user profile icon for account creation -->
+          <g transform="translate(0,-40)">
+            <circle cx="0" cy="0" r="24" fill="#8b5cf6" opacity="0.9">
+              <animate attributeName="r" values="24;27;24" dur="3s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="0" cy="-6" r="10" fill="#ffffff"/>
+            <path d="M-14,10 Q0,18 14,10" fill="#ffffff"/>
+            <!-- Plus sign for account creation -->
+            <g transform="translate(18,-18)">
+              <circle cx="0" cy="0" r="10" fill="#a855f7" opacity="0.9">
+                <animate attributeName="opacity" values="0.9;1;0.9" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <path d="M-5,0 L5,0 M0,-5 L0,5" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+            </g>
+          </g>
+          
+          <!-- Account creation title -->
+          <text x="0" y="-10" text-anchor="middle" fill="#8b5cf6" font-size="16" font-weight="bold">CREATE ACCOUNT</text>
+          
+          <!-- Form fields representation -->
+          <g transform="translate(0,15)">
+            <!-- Username field -->
+            <rect x="-85" y="-8" width="170" height="12" rx="6" fill="rgba(139,92,246,0.1)" opacity="0.8">
+              <animate attributeName="width" values="170;180;170" dur="3s" repeatCount="indefinite"/>
+            </rect>
+            <rect x="-80" y="-5" width="65" height="3" rx="1.5" fill="#8b5cf6" opacity="0.7"/>
+            <rect x="-80" y="-1" width="50" height="2" rx="1" fill="#a855f7" opacity="0.5"/>
+            <text x="-75" y="-10" fill="#8b5cf6" font-size="7" font-weight="bold">USERNAME</text>
+            
+            <!-- Password field -->
+            <rect x="-85" y="12" width="170" height="12" rx="6" fill="rgba(139,92,246,0.1)" opacity="0.8">
+              <animate attributeName="width" values="170;180;170" dur="3.5s" repeatCount="indefinite"/>
+            </rect>
+            <rect x="-80" y="15" width="80" height="3" rx="1.5" fill="#8b5cf6" opacity="0.7"/>
+            <rect x="-80" y="19" width="55" height="2" rx="1" fill="#a855f7" opacity="0.5"/>
+            <text x="-75" y="10" fill="#8b5cf6" font-size="7" font-weight="bold">PASSWORD</text>
+          </g>
+          
+          <!-- Create button -->
+          <rect x="-70" y="50" width="140" height="22" rx="11" fill="#8b5cf6" opacity="0.9">
+            <animate attributeName="opacity" values="0.9;1;0.9" dur="2s" repeatCount="indefinite"/>
+            <animate attributeName="fill" values="#8b5cf6;#a855f7;#8b5cf6" dur="3s" repeatCount="indefinite"/>
+          </rect>
+          <text x="0" y="64" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">CREATE ACCOUNT</text>
+        </g>
+        
+        <!-- Additional floating elements for account creation theme -->
+        <g transform="translate(600,420)">
+          <circle cx="0" cy="0" r="18" fill="rgba(139,92,246,0.2)" opacity="0.6">
+            <animate attributeName="r" values="18;22;18" dur="4s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.6;0.9;0.6" dur="4s" repeatCount="indefinite"/>
+          </circle>
+          <path d="M-8,0 L8,0 M0,-8 L0,8" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round" opacity="0.8">
+            <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
+          </path>
+        </g>
+        
+        <g transform="translate(200,380)">
+          <circle cx="0" cy="0" r="15" fill="rgba(168,85,247,0.2)" opacity="0.5">
+            <animate attributeName="r" values="15;18;15" dur="3.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.5;0.8;0.5" dur="3.5s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="0" cy="0" r="6" fill="#a855f7" opacity="0.8">
+            <animate attributeName="opacity" values="0.8;1;0.8" dur="2.5s" repeatCount="indefinite"/>
+          </circle>
+        </g>
+        
+        <!-- User creation success indicator -->
+        <g transform="translate(600,250)">
+          <circle cx="0" cy="0" r="20" fill="rgba(255,255,255,0.9)" opacity="0.7">
+            <animate attributeName="r" values="20;25;20" dur="4s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.7;1;0.7" dur="4s" repeatCount="indefinite"/>
+          </circle>
+          <path d="M-8,-2 L-3,3 L8,-8" stroke="#8b5cf6" stroke-width="4" fill="none" stroke-linecap="round">
+            <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
+          </path>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+
+
+  <script>
+    window.API_BASE = 'http://localhost:8080';
+    
+    // Display email when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const email = urlParams.get('email');
+      const emailDisplay = document.getElementById('display-email');
+      
+      if (email) {
+        emailDisplay.textContent = email;
+      } else {
+        emailDisplay.textContent = 'Email not found';
+        emailDisplay.style.color = '#dc3545';
+      }
+    });
+    
+    document.getElementById('form-create-account').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      
+      // Get email from URL parameters (passed from OAuth)
+      const urlParams = new URLSearchParams(window.location.search);
+      const email = urlParams.get('email');
+      
+      if (!email) {
+        alert('Email not found. Please start the process again.');
+        window.location.href = './auth/login.html';
+        return;
+      }
+      
+      try {
+        // Check if this is from Google OAuth (has email parameter)
+        const urlParams = new URLSearchParams(window.location.search);
+        const isFromGoogle = urlParams.has('email');
+        
+        const endpoint = isFromGoogle ? 
+          `${window.API_BASE}/api/auth/complete-google-registration` : 
+          `${window.API_BASE}/api/auth/register`;
+        
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: email,
+            name: username, // Use username as display name
+            username: username,
+            password: password
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          alert('Account created successfully!');
+          window.location.href = './account-type.html';
+        } else {
+          alert('Error: ' + (data.error || 'Unable to create account'));
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Connection error occurred');
+      }
+    });
+  </script>
+
+</body>
+</html>
