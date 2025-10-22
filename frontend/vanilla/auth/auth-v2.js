@@ -25,7 +25,7 @@ window.handleGoogleLogin = function() {
     const nextUrl = ''; // ไม่กำหนด next URL เพื่อให้ใช้ onboardIfNew logic
     const onboardIfNew = '1'; // ส่งผู้ใช้ใหม่ไปหน้า profile
     const timestamp = Date.now(); // เพิ่ม timestamp เพื่อป้องกัน cache
-    const fullUrl = `${API_BASE}/api/auth/google/login?onboardIfNew=${onboardIfNew}&t=${timestamp}`;
+    const fullUrl = `${API_BASE}/api/auth/google/login?onboardIfNew=${onboardIfNew}&t=${timestamp}&cache=${Math.random()}`;
     
     console.log('Redirecting to:', fullUrl);
     
