@@ -20,6 +20,8 @@ function showError(message) {
 // Global function for Google login
 window.handleGoogleLogin = function() {
   console.log('handleGoogleLogin called');
+  console.log('API_BASE:', API_BASE);
+  console.log('Current location:', window.location.href);
   
   try {
     const nextUrl = ''; // ไม่กำหนด next URL เพื่อให้ใช้ onboardIfNew logic
@@ -29,8 +31,11 @@ window.handleGoogleLogin = function() {
     
     console.log('Redirecting to:', fullUrl);
     
+    const healthUrl = `${API_BASE}/healthz?t=${Date.now()}`;
+    console.log('Testing health endpoint:', healthUrl);
+    
     // ตรวจสอบว่า API พร้อมใช้งานก่อน redirect
-    fetch(`${API_BASE}/healthz?t=${Date.now()}`, {
+    fetch(healthUrl, {
       method: 'GET',
       cache: 'no-cache',
       headers: {
@@ -38,14 +43,19 @@ window.handleGoogleLogin = function() {
       }
     })
       .then(response => {
+        console.log('Health check response status:', response.status);
+        console.log('Health check response ok:', response.ok);
         if (response.ok) {
+          console.log('Health check passed, redirecting to Google login...');
           window.location.href = fullUrl;
         } else {
-          throw new Error('API not available');
+          throw new Error(`API not available - status: ${response.status}`);
         }
       })
       .catch(error => {
-        console.error('API connection error:', error);
+        console.error('API connection error details:', error);
+        console.error('Error type:', typeof error);
+        console.error('Error message:', error.message);
         alert('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง');
       });
       
