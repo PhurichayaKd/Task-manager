@@ -69,3 +69,4 @@ logs/
 build/
 dist/
 out/
+.vercel

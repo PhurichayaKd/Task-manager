@@ -3,38 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings</title>
+    <title>Settings - Task Manager</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Settings</h1>
-    </header>
-    <main>
-        <section id="language-settings">
-            <h2>Language Settings</h2>
-            <select id="language-selector">
-                <option value="en">English</option>
-                <option value="th">ไทย</option>
-            </select>
-        </section>
-        <section id="theme-settings">
-            <h2>Theme Settings</h2>
-            <button id="theme-toggle">Toggle Theme</button>
-        </section>
-        <section id="notification-settings">
-            <h2>Notification Settings</h2>
-            <form id="notification-form">
-                <label>
-                    <input type="checkbox" id="email-notifications"> Email Notifications
-                </label>
-                <label>
-                    <input type="checkbox" id="sms-notifications"> SMS Notifications
-                </label>
-                <button type="submit">Save Settings</button>
+    <div class="settings-container">
+        <header class="settings-header">
+            <div class="header-content">
+                <a href="../home.html" class="back-button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m15 18-6-6 6-6"/>
+                    </svg>
+                    Back to Home
+                </a>
+                <h1>Settings</h1>
+            </div>
+        </header>
+        
+        <main class="settings-main">
+            <!-- Profile Settings -->
+            <section class="settings-section">
+                <h2>Profile Settings</h2>
+                <div class="setting-item">
+                    <label>Profile Picture</label>
+                    <div class="profile-picture-container">
+                        <div class="current-avatar">U</div>
+                        <button class="change-avatar-btn" onclick="changeProfilePicture()">Change Picture</button>
+                        <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+                
+                <div class="setting-item">
+                    <label for="username">Username</label>
+                    <div class="input-group">
+                        <input type="text" id="username" value="Admin User" readonly>
+                        <button onclick="editUsername()">Edit</button>
+                    </div>
+                </div>
+                
+                <div class="setting-item">
+                    <label>Change Password</label>
+                    <button class="secondary-btn" onclick="openPasswordModal()">Change Password</button>
+                </div>
+            </section>
+            
+            <!-- Display Settings -->
+            <section class="settings-section">
+                <h2>Display Settings</h2>
+                <div class="setting-item">
+                    <label for="language-select">Language</label>
+                    <select id="language-select">
+                        <option value="en">English</option>
+                        <option value="th">ไทย (Thai)</option>
+                    </select>
+                </div>
+                
+                <div class="setting-item">
+                    <label>Theme</label>
+                    <div class="theme-toggle-container">
+                        <span>Light</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider"></span>
+                        </label>
+                        <span>Dark</span>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Notification Settings -->
+            <section class="settings-section">
+                <h2>Notification Settings</h2>
+                <div class="setting-item">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="email-notifications" checked>
+                        <span class="checkmark"></span>
+                        Email Notifications
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="push-notifications" checked>
+                        <span class="checkmark"></span>
+                        Push Notifications
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="task-reminders">
+                        <span class="checkmark"></span>
+                        Task Reminders
+                    </label>
+                </div>
+            </section>
+            
+            <!-- Account Settings -->
+            <section class="settings-section danger-section">
+                <h2>Account Settings</h2>
+                <div class="setting-item">
+                    <label>Delete Account</label>
+                    <p class="warning-text">This action cannot be undone. All your data will be permanently deleted.</p>
+                    <button class="danger-btn" onclick="confirmDeleteAccount()">Delete Account</button>
+                </div>
+            </section>
+            
+            <!-- Save Button -->
+            <div class="settings-actions">
+                <button class="primary-btn" onclick="saveSettings()">Save Changes</button>
+                <button class="secondary-btn" onclick="resetSettings()">Reset to Default</button>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Password Change Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Change Password</h3>
+                <span class="close" onclick="closePasswordModal()">&times;</span>
+            </div>
+            <form id="password-form">
+                <div class="form-group">
+                    <label for="current-password">Current Password</label>
+                    <input type="password" id="current-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-password">New Password</label>
+                    <input type="password" id="new-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm New Password</label>
+                    <input type="password" id="confirm-password" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="secondary-btn" onclick="closePasswordModal()">Cancel</button>
+                    <button type="submit" class="primary-btn">Change Password</button>
+                </div>
             </form>
-        </section>
-    </main>
+        </div>
+    </div>
+
+    <!-- Delete Account Confirmation Modal -->
+    <div id="deleteAccountModal" class="modal">
+        <div class="modal-content delete-modal">
+            <div class="modal-header">
+                <h3>⚠️ Delete Account</h3>
+                <span class="close" onclick="closeDeleteAccountModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p class="warning-text">คุณแน่ใจหรือไม่ที่จะลบบัญชีนี้อย่างถาวร?</p>
+                <p class="warning-subtext">การดำเนินการนี้ไม่สามารถยกเลิกได้ และข้อมูลทั้งหมดจะถูกลบอย่างถาวร</p>
+                
+                <div class="form-group">
+                    <label for="deletePassword">กรุณายืนยันรหัสผ่านของคุณ</label>
+                    <input type="password" id="deletePassword" placeholder="ใส่รหัสผ่านเพื่อยืนยัน" required>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="confirmDelete" required>
+                    <label for="confirmDelete">ฉันเข้าใจและยืนยันที่จะลบบัญชีนี้อย่างถาวร</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeDeleteAccountModal()">ยกเลิก</button>
+                <button type="button" class="btn btn-danger" onclick="finalDeleteAccount()" id="deleteConfirmBtn" disabled>ลบบัญชีอย่างถาวร</button>
+            </div>
+        </div>
+    </div>
+    
     <script src="settings.js"></script>
 </body>
 </html>

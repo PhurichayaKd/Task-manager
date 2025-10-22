@@ -80,6 +80,7 @@ func main() {
 	r.StaticFile("/account-type.html", "./frontend/vanilla/account-type.html")
 	r.StaticFile("/team-invitation.html", "./frontend/vanilla/team-invitation.html")
 	r.StaticFile("/home.html", "./frontend/vanilla/home.html")
+	r.StaticFile("/my-work.html", "./frontend/vanilla/my-work.html")
 	r.StaticFile("/dashboard-reporting.html", "./frontend/vanilla/dashboard-reporting.html")
 	r.StaticFile("/index.html", "./frontend/vanilla/index.html")
 

@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:8080';
+const API_BASE = 'https://task-manager-production-6c61.up.railway.app';
 
 // Show error message
 function showError(message) {

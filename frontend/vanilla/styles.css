@@ -157,14 +157,17 @@ body{ color-scheme:light }
   display:flex; gap:24px; margin-bottom:16px;
   white-space:nowrap; animation-duration:60s; animation-timing-function:linear;
   animation-iteration-count:infinite;
+  animation-fill-mode:both;
 }
 .features-row-1{
-  animation-name:scrollRight;
+  animation-name:scrollRightDelayed;
+  animation-delay:2s;
 }
 
-@keyframes scrollRight{
-  0%{ transform:translateX(-50%); }
-  100%{ transform:translateX(0%); }
+@keyframes scrollRightDelayed{
+  0%{ transform:translateX(100%); }
+  3.33%{ transform:translateX(100%); }
+  100%{ transform:translateX(-100%); }
 }
 
 .feature-card{

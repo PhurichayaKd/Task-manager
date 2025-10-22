@@ -1,5 +1,5 @@
 // API Base URL - ใช้ port 8080 สำหรับ Docker API container
-const API_BASE = 'http://localhost:8080';
+const API_BASE = 'https://task-manager-production-6c61.up.railway.app';
 
 // Helper function to show error messages
 function showError(message) {
@@ -30,7 +30,13 @@ window.handleGoogleLogin = function() {
     console.log('Redirecting to:', fullUrl);
     
     // ตรวจสอบว่า API พร้อมใช้งานก่อน redirect
-    fetch(`${API_BASE}/healthz`)
+    fetch(`${API_BASE}/healthz?t=${Date.now()}`, {
+      method: 'GET',
+      cache: 'no-cache',
+      headers: {
+        'Cache-Control': 'no-cache'
+      }
+    })
       .then(response => {
         if (response.ok) {
           window.location.href = fullUrl;

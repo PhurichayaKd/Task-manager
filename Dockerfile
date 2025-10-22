@@ -14,6 +14,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o server ./cmd/server
 FROM gcr.io/distroless/static-debian12
 WORKDIR /app
 COPY --from=build /app/server /app/server
+COPY --from=build /app/frontend /app/frontend
 
 EXPOSE 8080
 USER nonroot:nonroot

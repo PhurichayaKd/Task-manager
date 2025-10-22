@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch user information
     async function fetchUserInfo() {
         try {
-            const response = await fetch('http://localhost:8080/user', {
+            const response = await fetch('https://task-manager-production-6c61.up.railway.app/user', {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('http://localhost:8080/user/password', {
+            const response = await fetch('https://task-manager-production-6c61.up.railway.app/user/password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
