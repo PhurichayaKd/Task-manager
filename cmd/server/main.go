@@ -12,6 +12,7 @@ import (
 	"task-manager/internal/api"
 	"task-manager/internal/auth"
 	"task-manager/internal/config"
+	"task-manager/internal/db"
 	"task-manager/internal/middleware"
 	"task-manager/internal/repo"
 	"task-manager/internal/service"
@@ -30,15 +31,22 @@ func main() {
 	}
 
 	// DB
-	db := repo.MustOpen(cfg.DBDSN)
-	defer db.Close()
+	database := repo.MustOpen(cfg.DBDSN)
+	defer database.Close()
+
+	// Run migrations
+	log.Println("Running database migrations...")
+	if err := db.RunMigrations(database); err != nil {
+		log.Fatalf("Failed to run migrations: %v", err)
+	}
+	log.Println("Database migrations completed successfully")
 
 	// DI
 	j := auth.NewJWT(cfg)
 	pw := auth.NewPasswordHasher()
 
-	userRepo := repo.NewUserRepo(db)
-	taskRepo := repo.NewTaskRepo(db)
+	userRepo := repo.NewUserRepo(database)
+	taskRepo := repo.NewTaskRepo(database)
 
 	authSvc := service.NewAuthService(userRepo, pw, j)
 	userSvc := service.NewUserService(userRepo, pw)
