@@ -10,6 +10,7 @@ var allowed = map[string]bool{
 	"http://localhost:5173": true, // Vite
 	"http://localhost:5500": true, // Live Server
 	"http://127.0.0.1:5500": true, // Live Server (127)
+	"https://task-manager-production-6c61.up.railway.app": true, // Railway Production
 }
 
 func CORSMiddleware() gin.HandlerFunc {
